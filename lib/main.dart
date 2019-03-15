@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 // Gets distance (in miles) between 2 pairs of lat,long coordinates
 double getDistance(double startLat, double startLon, double endLat, double endLon) {
@@ -24,6 +24,15 @@ double getDistance(double startLat, double startLon, double endLat, double endLo
     
   return miDistance;
 }
+
+// Get the user's current position
+Future<Map<String, double>> getPos() async {
+  var location = new Location();
+  Map<String, double> currentLocation = await location.getLocation();
+  return currentLocation;
+}
+
+
 
 void main() {
   runApp(MaterialApp(
@@ -193,11 +202,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 
+
 class _MyHomePageState extends State<MyHomePage> {
   String _counter = "";
-  var location = new Location();
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // Must 'await getPos()' outside of setState() -- setState cannot be async
+    var currentLocation = <String, double>{};
+    try {
+      currentLocation = await getPos();
+    } on PlatformException {
+      currentLocation = null;
+    }
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -205,17 +224,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
 
-    location.onLocationChanged().listen((Map<String,double> currentLocation) {
       print(currentLocation["latitude"]);
       print(currentLocation["longitude"]);
       print(currentLocation["accuracy"]);
       print(currentLocation["altitude"]);
       print(currentLocation["speed"]);
       print(currentLocation["speed_accuracy"]); // Will always be 0 on iOS
-    });
 
-  
-      
       //   _counter = "lat: " + currentLocation.latitude.toString() +
       //  "\nlong: " + currentLocation.longitude.toString() +
       //  "\nspeed: " + currentLocation.speed.toString() +
@@ -235,35 +250,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-
-        //title: Text(widget.title),
-
-        /*
-        "Yo Im a noob and I got this error because I had some pages with an optional title param.
-         It wasn't giving me warning or failure on compile because I was giving the Text a
-          variable argument that hadn't been set yet. Then I never set it in the constructor for the page */
         title: Text("GPS Test"),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
