@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+// Gets distance (in miles) between 2 pairs of lat,long coordinates
+double getDistance(double startLat, double startLon, double endLat, double endLon) {
+  var earthR = 6373.0; //radius of earth in km
+
+  //convert lat/long to radians
+  var lat1 = startLat * pi / 180;
+  var lon1 = startLon * pi / 180;
+  var lat2 = endLat * pi / 180;
+  var lon2 = endLon * pi / 180;
+  
+  var lonDiff = lon2 - lon1;
+  var latDiff = lat2 - lat1;
+  
+  var a = pow(sin(latDiff / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(lonDiff / 2), 2);
+  var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  
+  double miDistance = (earthR * c) / 1.609344;
+    
+  return miDistance;
+}
 
 void main() {
   runApp(MaterialApp(
@@ -181,13 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
-      // location.onLocationChanged().listen((LocationData currentLocation) {
-      //   print(currentLocation.latitude);
-      //   print(currentLocation.longitude);
-      //   print(currentLocation.accuracy);
-      //   print(currentLocation.altitude);
-      //   print(currentLocation.speed);
 
     location.onLocationChanged().listen((Map<String,double> currentLocation) {
       print(currentLocation["latitude"]);
