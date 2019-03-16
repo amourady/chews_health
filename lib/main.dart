@@ -7,6 +7,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http; 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Set your API stuff here:
+final String appID = 'asdf';
+final String appKey = 'asdf';
+
 // Gets distance (in miles) between 2 pairs of lat,long coordinates
 double getDistance(double startLat, double startLon, double endLat, double endLon) {
   var earthR = 6373.0; //radius of earth in km
@@ -36,18 +40,28 @@ Future<Map<String, double>> getPos() async {
 }
 
 // Return a response (string) of 1 restaurant within 50m of given lat/lon
+// Uses a v2 API call
 Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
   var url = 'https://trackapi.nutritionix.com/v2/locations?ll=$lat,$lon&distance=50m&limit=1';
 
   Map<String, String> headers = {
     'Content-Type' : 'application/json',
-    'x-app-id' : 'YOURAPPID',
-    'x-app-key': 'YOURAPPKEY'
+    'x-app-id' : '$appID',
+    'x-app-key': '$appKey'
   };
   
   final response = await http.get(url, headers: headers);
-  final responseJson = json.decode(response.body);
-  print(responseJson);
+ 
+  return response;
+}
+
+// Return a response (string) of 20 food items, with minimum 240 calories each, from restaurant with brandID
+// Uses a v1 API call
+Future<http.Response> getFoodFromRestaurant(String brandID) async {
+    var url = 'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0%3A20&cal_min=240&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
+
+  final response = await http.get(url);
+  
   return response;
 }
 
@@ -58,6 +72,13 @@ Map<String, dynamic> getRestaurantJSON(http.Response resp) {
 
   // Our call only returns 1 restaurant within 50m - Access the fields from restaurant["locations"][0]:
   return nearbyRestaurant['locations'][0]; // NOTE: this will cause an exception when no restaurants are found
+}
+
+// Converts the food hits to a useable List (of Maps) w/ the JSON info
+List<dynamic> getFoodJSON(http.Response resp) {
+  Map<String, dynamic> nearbyFood = json.decode(resp.body);
+
+  return nearbyFood['hits'];
 }
 
 void main() {
@@ -136,8 +157,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String _latlong = "lat:     long:     ";
   String _restaurantName = "";
   String _brandID = "Press the 'locate me' button to find the nearest restaurant.";
+  String _foodInfo = "";
 
   void _getNearestRestaurant() async {
+    _foodInfo = "";
     // Platform messages may fail, so we use a try/catch PlatformException.
     // Must 'await getPos()' outside of setState() -- setState cannot be async
     var currentLocation = <String, double>{};
@@ -147,22 +170,23 @@ class _MyHomePageState extends State<MyHomePage> {
       currentLocation = null;
     }
 
-    // In-n-out example (hardcoded JSON response):
-    String exampleCall = '{"locations":[{"name":"In-N-Out Burger","brand_id":"513fbc1283aa2dc80c000011","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
-    Map<String, dynamic> inOutExample = json.decode(exampleCall);
-    Map<String, dynamic> nearbyRestaurant = inOutExample['locations'][0];
+    // dummy Wendy's Restaurant example (hardcoded JSON response):
+    String exampleCall = '{"locations":[{"name":"Wendy\'s","brand_id":"513fbc1283aa2dc80c00000f","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
+    Map<String, dynamic> wendysExample = json.decode(exampleCall);
+    Map<String, dynamic> nearbyRestaurant = wendysExample['locations'][0];
 
-    // Using the API & actual location: (if you use this one, COMMENT the 3 LOC above for the in n out ex, and uncomment the 3 below)
-    // Also remember to replace YOURAPPID & YOURAPPKEY.
-    // http.Response resp = await getNearbyRestaurant(currentLocation['latitude'], currentLocation['longitude']);
+    // Using the API & actual location: (if you use this one, COMMENT the 3 LOC above for the wendys ex, and uncomment the 3 below)
+    //CHOOSE 1:
+      // http.Response resp = await getNearbyRestaurant(currentLocation['latitude'], currentLocation['longitude']); // using your current location
+      // http.Response resp = await getNearbyRestaurant(33.649515, -117.842338); // WENDY'S lat/long
     // print(json.decode(resp.body));
     // Map<String, dynamic> nearbyRestaurant = getRestaurantJSON(resp);
     
-    print(nearbyRestaurant['brand_id']);
-    print(nearbyRestaurant['name']);
+    // Use Brand ID from the 'nearby restaurant' API call to get the menu items, using another API call
+    http.Response foodResp = await getFoodFromRestaurant(nearbyRestaurant['brand_id']);
     
-    nearbyRestaurant.forEach((k,v) => print("KEY: $k               VALUE: $v"));
-
+    List<dynamic> nearbyFood = getFoodJSON(foodResp);
+    
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -170,17 +194,20 @@ class _MyHomePageState extends State<MyHomePage> {
       // _latlong without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
 
-      print(currentLocation["latitude"]);
-      print(currentLocation["longitude"]);
-      print(currentLocation["accuracy"]);
-      print(currentLocation["altitude"]);
-      print(currentLocation["speed"]);
-      print(currentLocation["speed_accuracy"]); // Will always be 0 on iOS
+      _latlong = "lat: " + currentLocation['latitude'].toString() + " long: " + currentLocation['longitude'].toString();
 
-        _latlong = "lat: " + currentLocation['latitude'].toString() + " long: " + currentLocation['longitude'].toString();
+      _restaurantName = nearbyRestaurant['name'];
 
-        _restaurantName = nearbyRestaurant['name'];
-        _brandID = "brand id: " + nearbyRestaurant['brand_id'];
+      _brandID = "brand id: " + nearbyRestaurant['brand_id'];
+
+      nearbyFood.forEach((foodItem) => _foodInfo += foodItem['fields']['item_name'] + "\n" +
+      "    Calories: ${foodItem['fields']['nf_calories'].toString()}\n" + 
+      "    Protein: ${foodItem['fields']['nf_protein'].toString()}\n" + 
+      "    Carbs: ${foodItem['fields']['nf_total_carbohydrate'].toString()}\n" + 
+      "    Fat: ${foodItem['fields']['nf_total_fat'].toString()}\n"
+      );
+
+
     });
   }
 
@@ -193,14 +220,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(50.0),
-      //   child: AppBar(
-      //     title: Text('ChewsHealth'),
-      //   ),
-      // ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.0),
+        child: AppBar(
+          title: Text('ChewsHealth'),
+        ),
+      ),
       body: ListView(
-
+        padding: const EdgeInsets.all(10.0),
         children: [
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceEvenly,
@@ -250,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
         Text(
-          '\n\n$_latlong\n\n',
+          '\n$_latlong\n',
           textAlign:TextAlign.center,
         ),
 
@@ -260,31 +287,43 @@ class _MyHomePageState extends State<MyHomePage> {
           tooltip: 'Locate me',
             child: Icon(Icons.gps_fixed),
           ),
+        
 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "\n",
-            ),
+        Container(
+          height: 400.0,
+          padding: const EdgeInsets.all(10.0),
+          child:  Column(
+            mainAxisSize:MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+      
+              Text(
+                '$_restaurantName',
+                style: Theme.of(context).textTheme.display1,
+                textAlign:TextAlign.center,
+              ),
 
-            Text(
-              '$_restaurantName',
-              style: Theme.of(context).textTheme.display1,
-              textAlign:TextAlign.center,
-            ),
+              Text(
+                '$_brandID',
+                textAlign:TextAlign.center,
+              ),
 
-            Text(
-              '$_brandID',
-              textAlign:TextAlign.center,
-            ),
+              new Expanded(
+                flex: 1,
+                child: new SingleChildScrollView(
+                  child: new Text(
+                    '$_foodInfo',
+                      style: new TextStyle (
+                      fontSize: 10.0, color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ),
 
-          ],
+
+              ],
+          ),
         ),
-
-
-
-
         ],
       ),
     );
