@@ -37,7 +37,6 @@ Future<Map<String, double>> getPos() async {
 
 // Return a response (string) of 1 restaurant within 50m of given lat/lon
 Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
-  
   var url = 'https://trackapi.nutritionix.com/v2/locations?ll=$lat,$lon&distance=50m&limit=1';
 
   Map<String, String> headers = {
@@ -50,8 +49,6 @@ Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
   final responseJson = json.decode(response.body);
   print(responseJson);
   return response;
-
-
 }
 
 
@@ -59,121 +56,33 @@ Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
 Map<String, dynamic> getRestaurantJSON(http.Response resp) {
   Map<String, dynamic> nearbyRestaurant = json.decode(resp.body);
 
-    // Our call only returns 1 restaurant within 50m - Access the fields from restaurant["locations"][0]:
+  // Our call only returns 1 restaurant within 50m - Access the fields from restaurant["locations"][0]:
   return nearbyRestaurant['locations'][0]; // NOTE: this will cause an exception when no restaurants are found
 }
 
 void main() {
-  
-
-
   runApp(MaterialApp(
-    title: 'Navigation Basics',
-    home: FirstRoute(),
+    title: 'ChewsHealth',
+    home: MyHomePage(),
   ));
 }
+
+
 
 class FirstRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(50.0),
-      //   child: AppBar(
-      //     title: Text('ChewsHealth'),
-      //   ),
-      // ),
-      body: ListView(
-
-        children: [
-          Row(
-            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-            children: [
-              FloatingActionButton(
-                heroTag: "b1",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SecondRoute()),
-                  );
-                },         
-                tooltip: 'Go to user page',
-                  child: Icon(Icons.person),
-                ),
-
-              FloatingActionButton(
-                heroTag: "b2",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
-                  );
-                },         
-                tooltip: 'Go to location page',
-                  child: Icon(Icons.location_on),
-                ),
-
-              FloatingActionButton(
-                heroTag: "b3",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ThirdRoute()),
-                  );
-                },         
-                tooltip: 'Go to run page',
-                  child: Icon(Icons.directions_run),
-                ),
-
-            ],
-          ),
-          // Image.asset("images/Header.png",
-          // fit: BoxFit.cover,
-          // ),
-          ///////////////////
-          RaisedButton(
-          child: Text('Go to route2'),
+      appBar: AppBar(
+        title: Text("First Route"),
+      ),
+      body: Center(
+        child: RaisedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
-            );
+            Navigator.pop(context);
           },
-          ),
-          ////////////////////////////
-          RaisedButton(
-          child: Text('Go to route3'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ThirdRoute()),
-            );
-          },
+          child: Text('Go back!'),
         ),
-         RaisedButton(
-          child: Text('GPS Test route'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            );
-          },
-        ),
-        FloatingActionButton(
-          heroTag: "b4",
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()), // placeholder
-            );
-          },         
-          tooltip: 'get my location',
-            child: Icon(Icons.gps_fixed),
-          ),
-
-
-
-        ],
       ),
     );
   }
@@ -198,7 +107,6 @@ class SecondRoute extends StatelessWidget {
   }
 }
 
-
 class ThirdRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -220,26 +128,16 @@ class ThirdRoute extends StatelessWidget {
 
 
 class MyHomePage extends StatefulWidget {
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
-  String _counter = "";
+  String _latlong = "lat:     long:     ";
+  String _restaurantName = "";
+  String _brandID = "Press the 'locate me' button to find the nearest restaurant.";
 
-  void _incrementCounter() async {
-
+  void _getNearestRestaurant() async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // Must 'await getPos()' outside of setState() -- setState cannot be async
     var currentLocation = <String, double>{};
@@ -249,21 +147,16 @@ class _MyHomePageState extends State<MyHomePage> {
       currentLocation = null;
     }
 
-    // In-n-out example: 
-    // http.Response resp = await getNearbyRestaurant(33.650162, -117.840609);
-    
-    // The response string & nearbyRestaurant Map
-    // (for In-N-Out example) is hardcoded below, to ration API calls
-    
-    //String exampleCall = '{"locations":[{"name":"In-N-Out Burger","brand_id":"513fbc1283aa2dc80c000011","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
-    // Map<String, dynamic> nearbyRestaurant = json.decode(exampleCall);
+    // In-n-out example (hardcoded JSON response):
+    String exampleCall = '{"locations":[{"name":"In-N-Out Burger","brand_id":"513fbc1283aa2dc80c000011","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
+    Map<String, dynamic> inOutExample = json.decode(exampleCall);
+    Map<String, dynamic> nearbyRestaurant = inOutExample['locations'][0];
 
-    http.Response resp = await getNearbyRestaurant(currentLocation['latitude'], currentLocation['longitude']);
-
-
-    print(json.decode(resp.body));
-
-    Map<String, dynamic> nearbyRestaurant = getRestaurantJSON(resp);
+    // Using the API & actual location: (if you use this one, COMMENT the 3 LOC above for the in n out ex, and uncomment the 3 below)
+    // Also remember to replace YOURAPPID & YOURAPPKEY.
+    // http.Response resp = await getNearbyRestaurant(currentLocation['latitude'], currentLocation['longitude']);
+    // print(json.decode(resp.body));
+    // Map<String, dynamic> nearbyRestaurant = getRestaurantJSON(resp);
     
     print(nearbyRestaurant['brand_id']);
     print(nearbyRestaurant['name']);
@@ -274,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
+      // _latlong without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
 
       print(currentLocation["latitude"]);
@@ -284,43 +177,115 @@ class _MyHomePageState extends State<MyHomePage> {
       print(currentLocation["speed"]);
       print(currentLocation["speed_accuracy"]); // Will always be 0 on iOS
 
-        _counter = nearbyRestaurant['name'] + "\n\nbrand id: " + 
-          nearbyRestaurant['brand_id'] + "\n\n" + 
-          "Your Coordinates: " + currentLocation['latitude'].toString() + ", " + currentLocation['longitude'].toString();
+        _latlong = "lat: " + currentLocation['latitude'].toString() + " long: " + currentLocation['longitude'].toString();
+
+        _restaurantName = nearbyRestaurant['name'];
+        _brandID = "brand id: " + nearbyRestaurant['brand_id'];
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    // by the _getNearestRestaurant method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: Text("GPS Test"),
-      ),
-      body: Center(
-        child: Column(
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(50.0),
+      //   child: AppBar(
+      //     title: Text('ChewsHealth'),
+      //   ),
+      // ),
+      body: ListView(
+
+        children: [
+          Row(
+            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+            children: [
+              FloatingActionButton(
+                heroTag: "b1",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FirstRoute()),
+                  );
+                },         
+                tooltip: 'Go to user page',
+                  child: Icon(Icons.person),
+                ), // Left button
+
+              FloatingActionButton(
+                heroTag: "b2",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SecondRoute()),
+                  );
+                },         
+                tooltip: 'Go to food page',
+                  child: Icon(Icons.location_on),
+                ), // Middle button
+
+              FloatingActionButton(
+                heroTag: "b3",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ThirdRoute()),
+                  );
+                },         
+                tooltip: 'Go to run page',
+                  child: Icon(Icons.directions_run),
+                ), // Right button
+
+            ],
+          ),
+
+          // Image.asset("images/Header.png",
+          // fit: BoxFit.cover,
+          // ),
+
+
+        Text(
+          '\n\n$_latlong\n\n',
+          textAlign:TextAlign.center,
+        ),
+
+        FloatingActionButton(
+          heroTag: "b4",
+          onPressed: _getNearestRestaurant,
+          tooltip: 'Locate me',
+            child: Icon(Icons.gps_fixed),
+          ),
+
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Info:",
+              "\n",
             ),
+
             Text(
-              '$_counter',
+              '$_restaurantName',
               style: Theme.of(context).textTheme.display1,
               textAlign:TextAlign.center,
             ),
+
+            Text(
+              '$_brandID',
+              textAlign:TextAlign.center,
+            ),
+
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Geolocate',
-        child: Icon(Icons.gps_fixed),
+
+
+
+
+        ],
       ),
     );
   }
