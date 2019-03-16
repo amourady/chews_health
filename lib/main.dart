@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
+//import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http; 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Gets distance (in miles) between 2 pairs of lat,long coordinates
@@ -32,9 +35,38 @@ Future<Map<String, double>> getPos() async {
   return currentLocation;
 }
 
+// Return a response (string) of 1 restaurant within 50m of given lat/lon
+Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
+  
+  var url = 'https://trackapi.nutritionix.com/v2/locations?ll=$lat,$lon&distance=50m&limit=1';
 
+  Map<String, String> headers = {
+    'Content-Type' : 'application/json',
+    'x-app-id' : 'YOURAPPID',
+    'x-app-key': 'YOURAPPKEY'
+  };
+  
+  final response = await http.get(url, headers: headers);
+  final responseJson = json.decode(response.body);
+  print(responseJson);
+  return response;
+
+
+}
+
+
+// Converts the response string into a useable Map with the JSON info
+Map<String, dynamic> getRestaurantJSON(http.Response resp) {
+  Map<String, dynamic> nearbyRestaurant = json.decode(resp.body);
+
+    // Our call only returns 1 restaurant within 50m - Access the fields from restaurant["locations"][0]:
+  return nearbyRestaurant['locations'][0]; // NOTE: this will cause an exception when no restaurants are found
+}
 
 void main() {
+  
+
+
   runApp(MaterialApp(
     title: 'Navigation Basics',
     home: FirstRoute(),
@@ -132,7 +164,7 @@ class FirstRoute extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdRoute()),
+              MaterialPageRoute(builder: (context) => MyHomePage()), // placeholder
             );
           },         
           tooltip: 'get my location',
@@ -217,6 +249,27 @@ class _MyHomePageState extends State<MyHomePage> {
       currentLocation = null;
     }
 
+    // In-n-out example: 
+    // http.Response resp = await getNearbyRestaurant(33.650162, -117.840609);
+    
+    // The response string & nearbyRestaurant Map
+    // (for In-N-Out example) is hardcoded below, to ration API calls
+    
+    //String exampleCall = '{"locations":[{"name":"In-N-Out Burger","brand_id":"513fbc1283aa2dc80c000011","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
+    // Map<String, dynamic> nearbyRestaurant = json.decode(exampleCall);
+
+    http.Response resp = await getNearbyRestaurant(currentLocation['latitude'], currentLocation['longitude']);
+
+
+    print(json.decode(resp.body));
+
+    Map<String, dynamic> nearbyRestaurant = getRestaurantJSON(resp);
+    
+    print(nearbyRestaurant['brand_id']);
+    print(nearbyRestaurant['name']);
+    
+    nearbyRestaurant.forEach((k,v) => print("KEY: $k               VALUE: $v"));
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -231,12 +284,9 @@ class _MyHomePageState extends State<MyHomePage> {
       print(currentLocation["speed"]);
       print(currentLocation["speed_accuracy"]); // Will always be 0 on iOS
 
-      //   _counter = "lat: " + currentLocation.latitude.toString() +
-      //  "\nlong: " + currentLocation.longitude.toString() +
-      //  "\nspeed: " + currentLocation.speed.toString() +
-      //  "\n\nUsing Geolocator:";
-      // });
- 
+        _counter = nearbyRestaurant['name'] + "\n\nbrand id: " + 
+          nearbyRestaurant['brand_id'] + "\n\n" + 
+          "Your Coordinates: " + currentLocation['latitude'].toString() + ", " + currentLocation['longitude'].toString();
     });
   }
 
@@ -257,11 +307,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Here's the lat, long, and speed: ",
+              "Info:",
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.display1,
+              textAlign:TextAlign.center,
             ),
           ],
         ),
