@@ -11,6 +11,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final String appID = 'asdf';
 final String appKey = 'asdf';
 
+
+// Holds details of a menu item
+class MenuItem {
+  String restaurant;
+  String name;
+  var calories;
+  var protein;
+  var carbs;
+  var fat;
+  
+  
+  MenuItem (String newRes, String newName, var newCal, var newPro, var newCar, var newFat) {
+    restaurant = newRes;
+    name = newName;
+    calories = newCal;
+    protein = newPro;
+    carbs = newCar;
+    fat = newFat;
+  }
+}
+
 // Gets distance (in miles) between 2 pairs of lat,long coordinates
 double getDistance(double startLat, double startLon, double endLat, double endLon) {
   var earthR = 6373.0; //radius of earth in km
@@ -55,10 +76,10 @@ Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
   return response;
 }
 
-// Return a response (string) of 20 food items, with minimum 240 calories each, from restaurant with brandID
+// Return a response (string) of 30 food items, with minimum 240 calories each, from restaurant with brandID
 // Uses a v1 API call
 Future<http.Response> getFoodFromRestaurant(String brandID) async {
-    var url = 'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0%3A20&cal_min=240&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
+    var url = 'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0:30&cal_min=240&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
 
   final response = await http.get(url);
   
@@ -80,6 +101,9 @@ List<dynamic> getFoodJSON(http.Response resp) {
 
   return nearbyFood['hits'];
 }
+
+
+
 
 void main() {
   runApp(MaterialApp(
@@ -186,7 +210,8 @@ class _MyHomePageState extends State<MyHomePage> {
     http.Response foodResp = await getFoodFromRestaurant(nearbyRestaurant['brand_id']);
     
     List<dynamic> nearbyFood = getFoodJSON(foodResp);
-    
+
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -200,14 +225,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _brandID = "brand id: " + nearbyRestaurant['brand_id'];
 
-      nearbyFood.forEach((foodItem) => _foodInfo += foodItem['fields']['item_name'] + "\n" +
-      "    Calories: ${foodItem['fields']['nf_calories'].toString()}\n" + 
-      "    Protein: ${foodItem['fields']['nf_protein'].toString()}\n" + 
-      "    Carbs: ${foodItem['fields']['nf_total_carbohydrate'].toString()}\n" + 
-      "    Fat: ${foodItem['fields']['nf_total_fat'].toString()}\n"
-      );
+      List<MenuItem> foodList = [];
+      // Populate list newL with MenuItems
+      nearbyFood.forEach((foodItem) => foodList.add(new MenuItem(nearbyRestaurant['name'], foodItem['fields']['item_name'],
+        foodItem['fields']['nf_calories'], foodItem['fields']['nf_protein'], foodItem['fields']['nf_total_carbohydrate'],
+        foodItem['fields']['nf_total_fat'])));
 
+      // Sort menu items by calories (ascending)
+      foodList.sort((a, b) => a.calories.compareTo(b.calories));
 
+      // Output sorted menu items to _foodInfo
+      foodList.forEach((f) => _foodInfo += '${f.name}\n    Cal: ${f.calories}\n        Pro: ${f.protein}\n'
+                                + '        Carbs: ${f.carbs}\n        Fat: ${f.fat}\n');
     });
   }
 
