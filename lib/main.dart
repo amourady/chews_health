@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
-//import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http; 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'menu_list.dart';
 
 // Set your API stuff here:
 final String appID = 'asdf';
 final String appKey = 'asdf';
 
+final testWeight = 160;
 
 // Holds details of a menu item
 class MenuItem {
@@ -30,6 +30,15 @@ class MenuItem {
     carbs = newCar;
     fat = newFat;
   }
+}
+
+double hrsRunningToBurn(var calories, var lbWeight) {
+  var runMET = 7.5; //Metabolic Equivalent of Task Value from National Cancer Institute (cancer.gov)
+  return (calories/((lbWeight/2.2) * runMET));
+}
+
+double minRunningToBurn(var calories, var lbWeight) {
+    return hrsRunningToBurn(calories, lbWeight) * 60;
 }
 
 // Gets distance (in miles) between 2 pairs of lat,long coordinates
@@ -178,13 +187,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   String _latlong = "lat:     long:     ";
   String _restaurantName = "";
-  String _brandID = "Press the 'locate me' button to find the nearest restaurant.";
-  String _foodInfo = "";
+  bool _gotRestaurant = false;
+  List<MenuItem> _foodList = [];
+
+  void _updateFoodList() {
+    print("Updating food list");
+    //_foodList.removeWhere((item) => item.calories < 450.0);
+    //_foodList.forEach((item) => print(item.name));
+    //return _foodList;
+  }
 
   void _getNearestRestaurant() async {
-    _foodInfo = "";
     // Platform messages may fail, so we use a try/catch PlatformException.
     // Must 'await getPos()' outside of setState() -- setState cannot be async
     var currentLocation = <String, double>{};
@@ -223,20 +239,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _restaurantName = nearbyRestaurant['name'];
 
-      _brandID = "brand id: " + nearbyRestaurant['brand_id'];
-
-      List<MenuItem> foodList = [];
+      
+      _foodList = [];
       // Populate list newL with MenuItems
-      nearbyFood.forEach((foodItem) => foodList.add(new MenuItem(nearbyRestaurant['name'], foodItem['fields']['item_name'],
+      nearbyFood.forEach((foodItem) => _foodList.add(new MenuItem(nearbyRestaurant['name'], foodItem['fields']['item_name'],
         foodItem['fields']['nf_calories'], foodItem['fields']['nf_protein'], foodItem['fields']['nf_total_carbohydrate'],
         foodItem['fields']['nf_total_fat'])));
+        _gotRestaurant = true;
+      
+     
 
       // Sort menu items by calories (ascending)
-      foodList.sort((a, b) => a.calories.compareTo(b.calories));
+      _foodList.sort((a, b) => a.calories.compareTo(b.calories));
 
-      // Output sorted menu items to _foodInfo
-      foodList.forEach((f) => _foodInfo += '${f.name}\n    Cal: ${f.calories}\n        Pro: ${f.protein}\n'
-                                + '        Carbs: ${f.carbs}\n        Fat: ${f.fat}\n');
     });
   }
 
@@ -255,9 +270,13 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text('ChewsHealth'),
         ),
       ),
+      
+    
       body: ListView(
         padding: const EdgeInsets.all(10.0),
         children: [
+
+
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceEvenly,
             children: [
@@ -300,59 +319,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
 
-          // Image.asset("images/Header.png",
-          // fit: BoxFit.cover,
-          // ),
-
-
-        Text(
-          '\n$_latlong\n',
-          textAlign:TextAlign.center,
-        ),
-
-        FloatingActionButton(
-          heroTag: "b4",
-          onPressed: _getNearestRestaurant,
-          tooltip: 'Locate me',
-            child: Icon(Icons.gps_fixed),
+          Text(
+            '\n$_latlong\n',
+            textAlign:TextAlign.center,
           ),
-        
 
-        Container(
-          height: 400.0,
-          padding: const EdgeInsets.all(10.0),
-          child:  Column(
-            mainAxisSize:MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-      
-              Text(
-                '$_restaurantName',
-                style: Theme.of(context).textTheme.display1,
-                textAlign:TextAlign.center,
-              ),
+          FloatingActionButton(
+            heroTag: "b4",
+            onPressed: (_gotRestaurant ? _updateFoodList : _getNearestRestaurant),
+            tooltip: 'Locate me',
+              child: Icon((_gotRestaurant ? Icons.refresh : Icons.gps_fixed)),
+            ),
+          
 
-              Text(
-                '$_brandID',
-                textAlign:TextAlign.center,
-              ),
-
-              new Expanded(
-                flex: 1,
-                child: new SingleChildScrollView(
-                  child: new Text(
-                    '$_foodInfo',
-                      style: new TextStyle (
-                      fontSize: 10.0, color: Colors.blue,
-                    ),
-                  ),
-                ),
-              ),
-
-
-              ],
+          Text(
+            '$_restaurantName',
+            style: Theme.of(context).textTheme.display1,
+            textAlign:TextAlign.center,
           ),
-        ),
+
+          Divider(
+            height: 5.0,
+          ),
+          
+          Container(
+            height: 400.0,
+            child: Center(
+              child: MenuList(_foodList),
+            ),
+          ),
         ],
       ),
     );
