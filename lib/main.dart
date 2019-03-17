@@ -4,35 +4,19 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:http/http.dart' as http; 
+
 import 'menu_list.dart';
+import 'menuItem_model.dart';
 
 // Set your API stuff here:
-final String appID = 'a92db20e';
-final String appKey = '66839975ad994f1994ccf893bf1647d6';
+final String appID = 'asdf';
+final String appKey = 'asdf';
 
 final testWeight = 160;
 
 double caloriesLeft = 800.0;
 
-// Holds details of a menu item
-class MenuItem {
-  String restaurant;
-  String name;
-  var calories;
-  var protein;
-  var carbs;
-  var fat;
-  
-  
-  MenuItem (String newRes, String newName, var newCal, var newPro, var newCar, var newFat) {
-    restaurant = newRes;
-    name = newName;
-    calories = newCal;
-    protein = newPro;
-    carbs = newCar;
-    fat = newFat;
-  }
-}
+
 
 double hrsRunningToBurn(var calories, var lbWeight) {
   var runMET = 7.5; //Metabolic Equivalent of Task Value from National Cancer Institute (cancer.gov)
@@ -224,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     // dummy Wendy's Restaurant example (hardcoded JSON response):
-    String exampleCall = '{"locations":[{"name":"Wendy\'s","brand_id":"513fbc1283aa2dc80c00000f","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"http://www.in-n-out.com/default.asp","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
+    String exampleCall = '{"locations":[{"name":"Wendy\'s","brand_id":"513fbc1283aa2dc80c00000f","fs_id":null,"address":"4115 Campus Drive, Irvine","address2":null,"city":"Irvine","state":"California","country":"US","zip":"92612","phone":"+18007861000","website":"https://www.wendys.com/","guide":null,"id":705010,"lat":33.65018844604492,"lng":-117.84062957763672,"created_at":"2017-06-26T21:36:47.000Z","updated_at":"2018-02-28T22:10:54.000Z","distance_km":0.0035026900922278045}]}';
     Map<String, dynamic> wendysExample = json.decode(exampleCall);
     Map<String, dynamic> nearbyRestaurant = wendysExample['locations'][0];
 

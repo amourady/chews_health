@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'menu_card.dart';
-import 'main.dart';
+import 'menuItem_model.dart';
 
 class MenuList extends StatelessWidget {
   final List<MenuItem> menuItems;
