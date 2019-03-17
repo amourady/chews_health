@@ -7,10 +7,12 @@ import 'package:http/http.dart' as http;
 import 'menu_list.dart';
 
 // Set your API stuff here:
-final String appID = 'asdf';
-final String appKey = 'asdf';
+final String appID = 'a92db20e';
+final String appKey = '66839975ad994f1994ccf893bf1647d6';
 
 final testWeight = 160;
+
+double caloriesLeft = 800.0;
 
 // Holds details of a menu item
 class MenuItem {
@@ -181,23 +183,34 @@ class ThirdRoute extends StatelessWidget {
 }
 
 
+void updateCaloriesLeft(var ateItemCal) {
+    print("subtracting $ateItemCal from $caloriesLeft");
+    caloriesLeft -= ateItemCal;
+}
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  double _caloriesLeft = caloriesLeft;
   String _latlong = "lat:     long:     ";
   String _restaurantName = "";
   bool _gotRestaurant = false;
   List<MenuItem> _foodList = [];
 
-  void _updateFoodList() {
-    print("Updating food list");
+  void _refreshCaloriesLeft() {
+    print("Refreshing calories left");
+    _caloriesLeft = caloriesLeft;
+    //caloriesLeft -= ateItem.calories;
     //_foodList.removeWhere((item) => item.calories < 450.0);
     //_foodList.forEach((item) => print(item.name));
     //return _foodList;
+    setState(() {
+            _caloriesLeft = caloriesLeft;
+    }
+    );
   }
 
   void _getNearestRestaurant() async {
@@ -234,10 +247,10 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _latlong without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
+      _caloriesLeft = caloriesLeft;
       _latlong = "lat: " + currentLocation['latitude'].toString() + " long: " + currentLocation['longitude'].toString();
 
-      _restaurantName = nearbyRestaurant['name'];
+      _restaurantName = nearbyRestaurant['name'] + ", " + nearbyRestaurant['city'];
 
       
       _foodList = [];
@@ -326,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           FloatingActionButton(
             heroTag: "b4",
-            onPressed: (_gotRestaurant ? _updateFoodList : _getNearestRestaurant),
+            onPressed: (_gotRestaurant ? _refreshCaloriesLeft : _getNearestRestaurant),
             tooltip: 'Locate me',
               child: Icon((_gotRestaurant ? Icons.refresh : Icons.gps_fixed)),
             ),
@@ -336,6 +349,20 @@ class _MyHomePageState extends State<MyHomePage> {
             '$_restaurantName',
             style: Theme.of(context).textTheme.display1,
             textAlign:TextAlign.center,
+          ),
+
+          Text(
+            (_caloriesLeft > 0 ? 
+             'Calories left for this meal: $_caloriesLeft': 
+              'WATCH OUT! You ate ${_caloriesLeft + (2*(-1*_caloriesLeft))} extra calories!'
+            ),
+          
+            textAlign: TextAlign.center,
+            style: ( _caloriesLeft > 0 ?
+              Theme.of(context).textTheme.body1 :
+              TextStyle(color: Colors.red)
+            ),
+
           ),
 
           Divider(

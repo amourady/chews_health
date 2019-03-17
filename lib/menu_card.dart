@@ -70,7 +70,10 @@ class _MenuCardState extends State<MenuCard> {
                 children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.add_circle),
-                      onPressed: () => print("Pressed the button for food item ${widget.menuItem.name}"),
+                  //    onPressed: () => print("Pressed the button for food item ${widget.menuItem.name}"),
+                    onPressed: () { 
+                      updateCaloriesLeft(menuItem.calories);
+                    },
                     ),
 
                   Text(' Calories: ${widget.menuItem.calories}      '),
