@@ -12,8 +12,8 @@ import 'menu_list.dart';
 import 'menuItem_model.dart';
 
 // Set your API stuff here:
-final String appID = 'a92db20e';
-final String appKey = '66839975ad994f1994ccf893bf1647d6';
+final String appID = 'asdf';
+final String appKey = 'asdf';
 
 // Test vars:
 final testWeight = 160;
