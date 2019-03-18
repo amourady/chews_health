@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum EventType {
   restaurantVisit,
@@ -89,6 +90,22 @@ void load() async {
   });
 
   print(users.toString());
+}
+
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/users.json');
+}
+
+void store() async {
+  final file = await _localFile;
+  file.writeAsString(jsonEncode({'users' : users}));
 }
 
 EventType getEventTypeFromString(String eventTypeString) {
