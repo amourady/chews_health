@@ -355,7 +355,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             height: 400.0,
             child: Center(
-              child: MenuList(_foodList),
+              child: (_foodList.length > 0 ? MenuList(_foodList) : (_gotRestaurant ? Text('Sorry, we\'re out of recommendations!') : MenuList(_foodList))), 
             ),
           ),
         ],
