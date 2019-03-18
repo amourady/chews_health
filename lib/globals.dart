@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 enum EventType {
   restaurantVisit,
-  exercised,
+  consumedCalories,
   finishedRecommendedExercise,
   reachedWeightGoal,
   lostWeightGoal,
@@ -74,6 +74,15 @@ List<User> users = [];
 class User {
   final String username;
   final String password;
+
+  //Personal Model
+  int age;
+  String gender;
+  int height; //in inches
+  int currWeight;
+  int goalWeight;
+  int dailyCaloricAllowance;
+
   List<dynamic> events;
 
   User(this.username, this.password);
@@ -81,6 +90,12 @@ class User {
   User.fromJson(dynamic json)
       : username = json['username'],
         password = json['password'],
+        age = json['age'],
+        gender = json['gender'],
+        height = json['height'],
+        currWeight = json['currWeight'],
+        goalWeight = json['goalWeight'],
+        dailyCaloricAllowance = json['dailyCaloricAllowance'],
         events = json['events'];
 
   Map<String, dynamic> toJson() => {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chews_health/globals.dart';
+import 'profile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,7 +18,10 @@ class _HomePageState extends State<HomePage> {
             semanticLabel: 'profile',
           ),
           onPressed: () {
-            print('prof button');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
           },
         ),
         title: Text('CHEWSHEALTH'),
@@ -43,10 +47,7 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
           ),
           IconButton(
-            icon: Icon(
-              Icons.gps_not_fixed,
-              semanticLabel: 'locate'
-            ),
+            icon: Icon(Icons.gps_not_fixed, semanticLabel: 'locate'),
             onPressed: () {
               print('locate button');
             },
