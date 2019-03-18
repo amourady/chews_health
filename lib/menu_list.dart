@@ -5,9 +5,16 @@ import 'package:flutter/material.dart';
 import 'menu_card.dart';
 import 'menuItem_model.dart';
 
-class MenuList extends StatelessWidget {
-  final List<MenuItem> menuItems;
-  MenuList(this.menuItems);
+class MenuList extends StatefulWidget {
+    final List<MenuItem> menuItems;
+    MenuList(this.menuItems);
+
+    @override
+  _MenuListState createState() => _MenuListState();
+}
+
+class _MenuListState extends State<MenuList> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +23,9 @@ class MenuList extends StatelessWidget {
 
   ListView _buildList(context) {
     return ListView.builder(
-      itemCount: menuItems.length,
+      itemCount: widget.menuItems.length,
       itemBuilder: (context, int) {
-        return MenuCard(menuItems[int]);
+        return MenuCard(widget.menuItems[int]);
       },
     );
   }

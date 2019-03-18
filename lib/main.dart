@@ -12,10 +12,9 @@ import 'menuItem_model.dart';
 final String appID = 'asdf';
 final String appKey = 'asdf';
 
+// Test vars:
 final testWeight = 160;
-
 double caloriesLeft = 800.0;
-
 
 
 double hrsRunningToBurn(var calories, var lbWeight) {
@@ -48,6 +47,12 @@ double getDistance(double startLat, double startLon, double endLat, double endLo
   return miDistance;
 }
 
+
+void updateCaloriesLeft(var ateItemCal) {
+    print("subtracting $ateItemCal from $caloriesLeft");
+    caloriesLeft -= ateItemCal;
+}
+
 // Get the user's current position
 Future<Map<String, double>> getPos() async {
   var location = new Location();
@@ -74,7 +79,7 @@ Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
 // Return a response (string) of 30 food items, with minimum 240 calories each, from restaurant with brandID
 // Uses a v1 API call
 Future<http.Response> getFoodFromRestaurant(String brandID) async {
-    var url = 'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0:30&cal_min=240&cal_max=50000&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
+    var url = 'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0:50&cal_min=240&cal_max=$caloriesLeft&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
 
   final response = await http.get(url);
   
@@ -167,10 +172,6 @@ class ThirdRoute extends StatelessWidget {
 }
 
 
-void updateCaloriesLeft(var ateItemCal) {
-    print("subtracting $ateItemCal from $caloriesLeft");
-    caloriesLeft -= ateItemCal;
-}
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -187,10 +188,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void _refreshCaloriesLeft() {
     print("Refreshing calories left");
     _caloriesLeft = caloriesLeft;
-    //caloriesLeft -= ateItem.calories;
-    //_foodList.removeWhere((item) => item.calories < 450.0);
-    //_foodList.forEach((item) => print(item.name));
-    //return _foodList;
+    _foodList.removeWhere((item) => item.calories > caloriesLeft);
+
+
     setState(() {
             _caloriesLeft = caloriesLeft;
     }
@@ -245,7 +245,6 @@ class _MyHomePageState extends State<MyHomePage> {
         _gotRestaurant = true;
       
      
-
       // Sort menu items by calories (ascending)
       _foodList.sort((a, b) => a.calories.compareTo(b.calories));
 
@@ -324,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
             heroTag: "b4",
             onPressed: (_gotRestaurant ? _refreshCaloriesLeft : _getNearestRestaurant),
-            tooltip: 'Locate me',
+            tooltip: (_gotRestaurant ?  'Update my recommendations' : 'Locate me'),
               child: Icon((_gotRestaurant ? Icons.refresh : Icons.gps_fixed)),
             ),
           
