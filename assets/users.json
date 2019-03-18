@@ -1,0 +1,32 @@
+{
+    "users": [
+        {
+            "username": "armen",
+            "password": "uci",
+            "age" : 22,
+            "gender" : "male",
+            "height" : 71,
+            "currWeight" : 157,
+            "goalWeight" : 150,
+            "events": [
+                {
+                    "etype": "EventType.restaurantVisit",
+                    "restaurant": "McDonald\"s",
+                    "lat": 33.745691600,
+                    "long": -117.8655619400,
+                    "source": "Nutritionix",
+                    "datetime": "someDatetime",
+                    "tookRecommendation": true,
+                    "order": "itemType"
+                  },
+                  {
+                    "etype": "EventType.exercised",
+                    "startTime": "someDateTime",
+                    "endTime": "someDateTime",
+                    "totalTime": "someTimeValue",
+                    "kcalBurned": 100
+                  }
+            ]
+        }
+    ]
+}

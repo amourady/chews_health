@@ -1,7 +1,7 @@
 //menu_card.dart
 
 import 'package:flutter/material.dart';
-import 'main.dart'; // for updateCaloriesLeft()
+import 'home.dart'; // for updateCaloriesLeft()
 import 'menuItem_model.dart';
 
 
