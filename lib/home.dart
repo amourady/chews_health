@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chews_health/globals.dart';
 import 'profile.dart';
+import 'login.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,11 +29,17 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.directions_run,
-              semanticLabel: 'exercise',
+              Icons.exit_to_app,
+              semanticLabel: 'log out',
             ),
             onPressed: () {
-              print('exercise button');
+              isLoggedIn = false;
+              currUser = null;
+              //store();
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
             },
           ),
         ],

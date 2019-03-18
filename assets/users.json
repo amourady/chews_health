@@ -3,6 +3,11 @@
         {
             "username": "armen",
             "password": "uci",
+            "age" : 22,
+            "gender" : "male",
+            "height" : 71,
+            "currWeight" : 157,
+            "goalWeight" : 150,
             "events": [
                 {
                     "etype": "EventType.restaurantVisit",
