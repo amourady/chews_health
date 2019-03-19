@@ -1,0 +1,546 @@
+{
+ "total_hits": 101,
+ "max_score": 1,
+ "hits": [
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "516d9a42e3afed1038d004e3",
+   "_score": 1,
+   "fields": {
+    "item_id": "516d9a42e3afed1038d004e3",
+    "item_name": "Double Stack",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 390,
+    "nf_total_fat": 21,
+    "nf_total_carbohydrate": 26,
+    "nf_protein": 25,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b6f6",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b6f6",
+    "item_name": "Vanilla Frosty, Small",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 340,
+    "nf_total_fat": 9,
+    "nf_total_carbohydrate": 56,
+    "nf_protein": 9,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b71c",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b71c",
+    "item_name": "Dave's Triple",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 1090,
+    "nf_total_fat": 72,
+    "nf_total_carbohydrate": 43,
+    "nf_protein": 71,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b723",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b723",
+    "item_name": "Homestyle Chicken Sandwich",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 510,
+    "nf_total_fat": 22,
+    "nf_total_carbohydrate": 51,
+    "nf_protein": 28,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b72e",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b72e",
+    "item_name": "Natural-Cut Fries, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 530,
+    "nf_total_fat": 24,
+    "nf_total_carbohydrate": 70,
+    "nf_protein": 7,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b730",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b730",
+    "item_name": "Plain Baked Potato",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 270,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 61,
+    "nf_protein": 7,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b735",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b735",
+    "item_name": "Sour Cream and Chive Baked Potato",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 310,
+    "nf_total_fat": 2.5,
+    "nf_total_carbohydrate": 63,
+    "nf_protein": 8,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca3051cb9eb3200414f",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca3051cb9eb3200414f",
+    "item_name": "Dr Pepper, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 240,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 66,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca3051cb9eb32004151",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca3051cb9eb32004151",
+    "item_name": "Strawberry Lemonade, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 480,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 121,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca4051cb9eb3200415c",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca4051cb9eb3200415c",
+    "item_name": "Coca-Cola, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 320,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 87,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca4051cb9eb320041c8",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca4051cb9eb320041c8",
+    "item_name": "Vanilla Frosty, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 570,
+    "nf_total_fat": 15,
+    "nf_total_carbohydrate": 94,
+    "nf_protein": 15,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "692455421b047150593cd095",
+   "_score": 1,
+   "fields": {
+    "item_id": "692455421b047150593cd095",
+    "item_name": "Seasoned Home-Style Potatoes, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 360,
+    "nf_total_fat": 13,
+    "nf_total_carbohydrate": 57,
+    "nf_protein": 5,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "692455424b17e1d97412e0d9",
+   "_score": 1,
+   "fields": {
+    "item_id": "692455424b17e1d97412e0d9",
+    "item_name": "Sweetened Iced Tea, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 300,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 77,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "69245542507f8235491235e9",
+   "_score": 1,
+   "fields": {
+    "item_id": "69245542507f8235491235e9",
+    "item_name": "Caramel Iced Coffee, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 240,
+    "nf_total_fat": 8,
+    "nf_total_carbohydrate": 40,
+    "nf_protein": 3,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "ae4920260ce61a80ca6172f7",
+   "_score": 1,
+   "fields": {
+    "item_id": "ae4920260ce61a80ca6172f7",
+    "item_name": "Seasoned Home-Style Potatoes, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 250,
+    "nf_total_fat": 9,
+    "nf_total_carbohydrate": 39,
+    "nf_protein": 4,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "ae49202661d9e8557562f251",
+   "_score": 1,
+   "fields": {
+    "item_id": "ae49202661d9e8557562f251",
+    "item_name": "Spicy Asiago Ranch Club",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 670,
+    "nf_total_fat": 32,
+    "nf_total_carbohydrate": 55,
+    "nf_protein": 38,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "ae49202672339fb5c342aa67",
+   "_score": 1,
+   "fields": {
+    "item_id": "ae49202672339fb5c342aa67",
+    "item_name": "Sausage and Egg Burrito",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 360,
+    "nf_total_fat": 20,
+    "nf_total_carbohydrate": 29,
+    "nf_protein": 17,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "c64044460e2213549a0e6862",
+   "_score": 1,
+   "fields": {
+    "item_id": "c64044460e2213549a0e6862",
+    "item_name": "Crispy Chicken BLT",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 420,
+    "nf_total_fat": 23,
+    "nf_total_carbohydrate": 35,
+    "nf_protein": 20,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "c640444637b4570041c112d5",
+   "_score": 1,
+   "fields": {
+    "item_id": "c640444637b4570041c112d5",
+    "item_name": "Vanilla Iced Coffee, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 250,
+    "nf_total_fat": 8,
+    "nf_total_carbohydrate": 42,
+    "nf_protein": 3,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "516d9a42e3afed1038d004e9",
+   "_score": 1,
+   "fields": {
+    "item_id": "516d9a42e3afed1038d004e9",
+    "item_name": "Crispy Chicken Sandwich",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 330,
+    "nf_total_fat": 16,
+    "nf_total_carbohydrate": 33,
+    "nf_protein": 14,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "516d9a42e3afed1038d004ea",
+   "_score": 1,
+   "fields": {
+    "item_id": "516d9a42e3afed1038d004ea",
+    "item_name": "Grilled Chicken Wrap",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 270,
+    "nf_total_fat": 10,
+    "nf_total_carbohydrate": 24,
+    "nf_protein": 20,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b6dc",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b6dc",
+    "item_name": "Sprite, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 310,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 84,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b703",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b703",
+    "item_name": "Spicy Caesar Chicken Salad, Half Size",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 410,
+    "nf_total_fat": 23,
+    "nf_total_carbohydrate": 30,
+    "nf_protein": 23,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b71b",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b71b",
+    "item_name": "Dave's Single",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 570,
+    "nf_total_fat": 34,
+    "nf_total_carbohydrate": 40,
+    "nf_protein": 30,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "521b95ca4a56d006d578b734",
+   "_score": 1,
+   "fields": {
+    "item_id": "521b95ca4a56d006d578b734",
+    "item_name": "Natural-Cut Fries, Small",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 320,
+    "nf_total_fat": 15,
+    "nf_total_carbohydrate": 43,
+    "nf_protein": 5,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca3051cb9eb32004152",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca3051cb9eb32004152",
+    "item_name": "Fanta Orange, Large",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 430,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 117,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca4051cb9eb3200415b",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca4051cb9eb3200415b",
+    "item_name": "All-Natural Lemonade, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 330,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 86,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca4051cb9eb3200416d",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca4051cb9eb3200416d",
+    "item_name": "Strawberry Lemonade, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 380,
+    "nf_total_fat": 0,
+    "nf_total_carbohydrate": 98,
+    "nf_protein": 0,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "52cdcca4051cb9eb320041c7",
+   "_score": 1,
+   "fields": {
+    "item_id": "52cdcca4051cb9eb320041c7",
+    "item_name": "Vanilla Frosty, Medium",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 450,
+    "nf_total_fat": 12,
+    "nf_total_carbohydrate": 75,
+    "nf_protein": 12,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  },
+  {
+   "_index": "f762ef22-e660-434f-9071-a10ea6691c27",
+   "_type": "item",
+   "_id": "692455423a8de2cc730d5091",
+   "_score": 1,
+   "fields": {
+    "item_id": "692455423a8de2cc730d5091",
+    "item_name": "Bacon Breakfast Bowl",
+    "brand_id": "513fbc1283aa2dc80c00000f",
+    "brand_name": "Wendy's",
+    "nf_calories": 510,
+    "nf_total_fat": 28,
+    "nf_total_carbohydrate": 44,
+    "nf_protein": 19,
+    "nf_serving_size_qty": 1,
+    "nf_serving_size_unit": "serving"
+   }
+  }
+ ]
+}
