@@ -3,20 +3,22 @@
 import 'package:flutter/material.dart';
 import 'home.dart'; // for updateCaloriesLeft()
 import 'menuItem_model.dart';
-
+import 'menu_list.dart';
 
 class MenuCard extends StatefulWidget {
   final MenuItem menuItem;
+  final HomePageState parent;
 
-  MenuCard(this.menuItem);
+  MenuCard(this.menuItem, this.parent);
   @override
-  _MenuCardState createState() => _MenuCardState(menuItem);
+  MenuCardState createState() => MenuCardState(menuItem, parent);
 }
 
-class _MenuCardState extends State<MenuCard> {
+class MenuCardState extends State<MenuCard> {
   MenuItem menuItem;
+  HomePageState parent;
 
-  _MenuCardState(this.menuItem);
+  MenuCardState(this.menuItem, this.parent);
 
   Widget get menuCard {
     return Container(
@@ -44,7 +46,10 @@ class _MenuCardState extends State<MenuCard> {
                     IconButton(
                       icon: Icon(Icons.add_circle),
                     onPressed: () { 
-                      updateCaloriesLeft(menuItem.calories); // this
+                      updateCaloriesLeft(menuItem.calories); 
+                      this.parent.setState(() {
+                        print ("hello");
+                      });
                     },
                     ),
 
