@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: ListView(padding: EdgeInsets.all(8.0), itemExtent: 20.0, children: <
           Widget>[
-        Text('${currUser.username}'),
+        Text('${currUser.username}',textAlign: TextAlign.center,),
         SizedBox(height: 80.0),
         Text('Daily Calories Needed: ${currUser.getDailyCaloricAllowance()}'),
         SizedBox(height: 80.0),
@@ -71,6 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         SizedBox(height: 80.0),
         // [height]
+        SizedBox(height: 80.0),
         TextField(
           controller: _heightController,
           decoration: InputDecoration(
@@ -79,6 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           keyboardType: TextInputType.number,
         ),
+        SizedBox(height: 80.0),
         SizedBox(height: 80.0),
         // [current weight]
         TextField(
@@ -90,6 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
           keyboardType: TextInputType.number,
         ),
         SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
         // [goal weight]
         TextField(
           controller: _goalWeightController,
@@ -100,6 +103,8 @@ class _ProfilePageState extends State<ProfilePage> {
           keyboardType: TextInputType.number,
         ),
         SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
+
         // update button
         RaisedButton(
           child: Text('UPDATE'),
