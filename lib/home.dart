@@ -54,7 +54,7 @@ double getDistance(
 }
 
 void updateCaloriesLeft(var ateItemCal) {
-  print("subtracting $ateItemCal from ${currUser.getCaloriesLeft()}");
+  print("subtracting $ateItemCal from $caloriesLeft");
   caloriesLeft -= ateItemCal;
 }
 
