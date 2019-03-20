@@ -28,7 +28,7 @@ class User {
   int currWeight;
   int goalWeight;
   bool atGoalWeight = false;
-  List<dynamic> events;
+  List<dynamic> events = [];
 
   User(this.username, this.password);
 
@@ -149,6 +149,9 @@ Future<File> get _localFile async {
 Future<File> store() async {
   final file = await _localFile;
   print(jsonEncode({'users': users}));
+  print("\n CurrUser: ");
+  print(jsonEncode(currUser));
+  print("");
   await file.writeAsString(jsonEncode({'users': users}));
 }
 
