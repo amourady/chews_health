@@ -117,11 +117,32 @@ class _ProfilePageState extends State<ProfilePage> {
 
             if (_currWeightController.text.isNotEmpty &&
                 int.tryParse(_currWeightController.text) != currUser.currWeight)
-              currUser.currWeight = int.tryParse(_currWeightController.text);
+                {
+                  generateEventWeightChanged(currUser.currWeight, int.tryParse(_currWeightController.text));
+                  currUser.currWeight = int.tryParse(_currWeightController.text);
+                  print(currUser.events.last.toString());
+                }
 
             if (_goalWeightController.text.isNotEmpty &&
                 int.tryParse(_goalWeightController.text) != currUser.goalWeight)
               currUser.goalWeight = int.tryParse(_goalWeightController.text);
+
+            if (currUser.currWeight == currUser.goalWeight && !currUser.atGoalWeight) {
+              currUser.atGoalWeight = true;
+              generateEventReachedWeightGoal();
+              print(currUser.events.last.toString());
+            }
+
+            else if (currUser.currWeight != currUser.goalWeight && currUser.atGoalWeight) {
+              currUser.atGoalWeight = false;
+              generateEventLostWeightGoal();
+              print(currUser.events.last.toString());
+            }
+
+            // if (currUser.currWeight == currUser.goalWeight) {
+            //   currUser.atGoalWeight = true;
+            // }
+            // else currUser.atGoalWeight = false;
 
             store();
           },

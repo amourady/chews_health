@@ -20,7 +20,6 @@ final String appKey = '7292060add763c6662856551346630da';
 
 // Test vars:
 final testWeight = 160;
-double caloriesLeft = 800.0;
 
 double hrsRunningToBurn(var calories, var lbWeight) {
   var runMET =
@@ -56,8 +55,8 @@ double getDistance(
 }
 
 void updateCaloriesLeft(var ateItemCal) {
-  print("subtracting $ateItemCal from $caloriesLeft");
-  caloriesLeft -= ateItemCal;
+  generateEventConsumedCalories(ateItemCal);
+  print(currUser.events.last.toString());
 }
 
 // Get the user's current position
@@ -88,7 +87,7 @@ Future<http.Response> getNearbyRestaurant(double lat, double lon) async {
 // Uses a v1 API call
 Future<http.Response> getFoodFromRestaurant(String brandID) async {
   var url =
-      'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0:50&cal_min=240&cal_max=$caloriesLeft&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
+      'https://api.nutritionix.com/v1_1/search/?brand_id=$brandID&results=0:50&cal_min=240&cal_max=${currUser.getCaloriesLeft()}&fields=item_name%2Cbrand_name%2Citem_id%2Cbrand_id%2Cnf_calories%2Cnf_protein%2Cnf_total_carbohydrate%2Cnf_total_fat&appId=$appID&appKey=$appKey';
 
   final response = await http.get(url);
 
@@ -117,7 +116,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double _caloriesLeft = caloriesLeft;
+  // double _caloriesLeft = caloriesLeft;
   String _latlong = "lat:     long:     ";
   String _restaurantName = "";
   bool _gotRestaurant = false;
@@ -125,11 +124,11 @@ class _HomePageState extends State<HomePage> {
 
   void _refreshCaloriesLeft() {
     print("Refreshing calories left");
-    _caloriesLeft = caloriesLeft;
-    _foodList.removeWhere((item) => item.calories > caloriesLeft);
+    // _caloriesLeft = currUser.getCaloriesLeft().toDouble();
+    _foodList.removeWhere((item) => item.calories > currUser.getCaloriesLeft());
 
     setState(() {
-      _caloriesLeft = caloriesLeft;
+      // _caloriesLeft = caloriesLeft;
     });
   }
 
@@ -168,7 +167,7 @@ class _HomePageState extends State<HomePage> {
       // so that the display can reflect the updated values. If we changed
       // _latlong without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _caloriesLeft = caloriesLeft;
+      // _caloriesLeft = caloriesLeft;
       _latlong = "lat: " +
           currentLocation['latitude'].toString() +
           " long: " +
@@ -190,6 +189,10 @@ class _HomePageState extends State<HomePage> {
 
       // Sort menu items by calories (ascending)
       _foodList.sort((a, b) => a.calories.compareTo(b.calories));
+
+      // print(_foodList.toString());
+      generateEventRestaurantVisit(currentLocation['latitude'], currentLocation['longitude'], nearbyRestaurant['name']);
+      print(currUser.events.last.toString());
     });
   }
 
@@ -220,10 +223,12 @@ class _HomePageState extends State<HomePage> {
               isLoggedIn = false;
               currUser = null;
               //store();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => LoginPage()),
+              // );
+              Navigator.pop(context);
             },
           ),
         ],
@@ -237,8 +242,7 @@ class _HomePageState extends State<HomePage> {
           ),
           FloatingActionButton(
             heroTag: "b4",
-            onPressed:
-                (_gotRestaurant ? _refreshCaloriesLeft : _getNearestRestaurant),
+            onPressed: (_gotRestaurant ? _refreshCaloriesLeft : _getNearestRestaurant),
             tooltip:
                 (_gotRestaurant ? 'Update my recommendations' : 'Locate me'),
             child: Icon((_gotRestaurant ? Icons.refresh : Icons.gps_fixed)),
@@ -249,11 +253,11 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
           ),
           Text(
-            (_caloriesLeft > 0
-                ? 'Calories left for this meal: $_caloriesLeft'
-                : 'WATCH OUT! You ate ${_caloriesLeft + (2 * (-1 * _caloriesLeft))} extra calories!'),
+            (currUser.getCaloriesLeft() > 0
+                ? 'Calories left for this meal: ${currUser.getCaloriesLeft()}'
+                : 'WATCH OUT! You ate ${currUser.getCaloriesLeft() + (2 * (-1 * currUser.getCaloriesLeft()))} extra calories!'),
             textAlign: TextAlign.center,
-            style: (_caloriesLeft > 0
+            style: (currUser.getCaloriesLeft() > 0
                 ? Theme.of(context).textTheme.body1
                 : TextStyle(color: Colors.red)),
           ),

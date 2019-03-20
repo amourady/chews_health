@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chews_health/globals.dart';
 import 'signup.dart';
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -85,7 +86,10 @@ class _LoginPageState extends State<LoginPage> {
                     }
 
                     if (isLoggedIn)
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
                     else
                       print("incorrect creds");
                   },

@@ -27,6 +27,7 @@ class User {
   int height; //in inches
   int currWeight;
   int goalWeight;
+  bool atGoalWeight = false;
   List<dynamic> events;
 
   User(this.username, this.password);
@@ -39,6 +40,7 @@ class User {
         height = json['height'],
         currWeight = json['currWeight'],
         goalWeight = json['goalWeight'],
+        atGoalWeight = json['atGoalWeight'],
         events = json['events'];
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +51,7 @@ class User {
         'height': height,
         'currWeight': currWeight,
         'goalWeight': goalWeight,
+        'atGoalWeight': atGoalWeight,
         'events': events,
       };
 
@@ -75,7 +78,26 @@ class User {
   }
 
   int getCaloriesEaten() {
-    return 0;
+    int total = 0;
+    for (var event in currUser.events) {
+      if (getEventTypeFromString(event['etype']) ==
+          EventType.consumedCalories) {
+        DateTime eventDateTime = DateTime.tryParse(event['datetime']);
+        int eventYear = eventDateTime.year;
+        int eventMonth = eventDateTime.month;
+        int eventDay = eventDateTime.day;
+
+        DateTime now = DateTime.now();
+
+        if (eventYear == now.year &&
+            eventMonth == now.month &&
+            eventDay == now.day) {
+          total += event['kcalConsumed'];
+        }
+      }
+    }
+    print('new calories eaten: $total');
+    return total;
   }
 
   int getCaloriesLeft() {
@@ -87,6 +109,7 @@ class User {
 //     users.forEach((entry) => usersFile.writeAsStringSync(jsonEncode(entry)));
 
 void load() async {
+  // // RUN THIS TO READ IN AN INITIAL FILE IF LOADING FROM APK FILE DOESN'T WORK
   // await rootBundle.loadStructuredData('assets/users.json', (String s) async {
   //   return json.decode(s);
   // }).then((jsonInput) {
@@ -135,6 +158,67 @@ EventType getEventTypeFromString(String eventTypeString) {
   return null;
 }
 
+void generateEventWeightChanged(int prevWeight, int newWeight) {
+  int weightDiff;
+  String changeType;
+  if (prevWeight > newWeight) {
+    weightDiff = prevWeight - newWeight;
+    changeType = 'loss';
+  } else {
+    weightDiff = newWeight - prevWeight;
+    changeType = 'gain';
+  }
+  var event = {
+    'etype': 'EventType.weightChanged',
+    'changeType': changeType,
+    'prevWeight': prevWeight,
+    'newWeight': newWeight,
+    'weightDiff': weightDiff,
+    'datetime': DateTime.now().toString(),
+  };
+  currUser.events.add(event);
+}
+
+void generateEventReachedWeightGoal() {
+  var event = {
+    'etype': 'EventType.reachedWeightGoal',
+    'datetime': DateTime.now().toString(),
+    'weightGoal': currUser.goalWeight,
+  };
+  currUser.events.add(event);
+}
+
+void generateEventLostWeightGoal() {
+  var event = {
+    'etype': 'EventType.lostWeightGoal',
+    'datetime': DateTime.now().toString(),
+    'weightGoal': currUser.goalWeight,
+  };
+  currUser.events.add(event);
+}
+
+void generateEventRestaurantVisit(double lat, double long, String restName) {
+  var event = {
+    'etype': 'EventType.restaurantVisit',
+    'restaurant': restName,
+    'lat': lat,
+    'long': long,
+    'source': 'Nutritionix',
+    'datetime': DateTime.now().toString(),
+    'tookRecommendation': true
+  };
+  currUser.events.add(event);
+}
+
+void generateEventConsumedCalories(int cals) {
+  var event = {
+    'etype': 'EventType.consumedCalories',
+    'datetime': DateTime.now().toString(),
+    'kcalConsumed': cals,
+  };
+  currUser.events.add(event);
+}
+
 List<Map<String, dynamic>> users_ex = [
   {
     'username': 'ally',
@@ -146,13 +230,12 @@ List<Map<String, dynamic>> users_ex = [
         'lat': 33.745691600,
         'long': -117.8655619400,
         'source': 'Nutritionix',
-        'datetime': 'someDatetime',
-        'tookRecommendation': true,
-        'order': 'itemType'
+        'datetime': '2019-03-19 17:37:23.616',
+        'tookRecommendation': true
       },
       {
         'etype': 'EventType.consumedCalories',
-        'datetime': 'someDateTime',
+        'datetime': '2019-03-19 17:37:23.616',
         'kcalConsumed': 100,
       },
       {
@@ -161,16 +244,16 @@ List<Map<String, dynamic>> users_ex = [
         'prevWeight': 150,
         'newWeight': 145,
         'weightDiff': 5,
-        'datetime': 'someDateTime'
+        'datetime': '2019-03-19 17:37:23.616'
       },
       {
         'etype': 'EventType.reachedWeightGoal',
-        'datetime': 'someDateTime',
+        'datetime': '2019-03-19 17:37:23.616',
         'weightGoal': 140,
       },
       {
         'etype': 'EventType.lostWeightGoal',
-        'datetime': 'someDateTime',
+        'datetime': '2019-03-19 17:37:23.616',
         'weightGoal': 140,
       },
     ],

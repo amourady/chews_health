@@ -8,6 +8,7 @@
             "height" : 71,
             "currWeight" : 157,
             "goalWeight" : 150,
+            "atGoalWeight" : false,
             "events": [
                 {
                     "etype": "EventType.restaurantVisit",
@@ -15,17 +16,9 @@
                     "lat": 33.745691600,
                     "long": -117.8655619400,
                     "source": "Nutritionix",
-                    "datetime": "someDatetime",
-                    "tookRecommendation": true,
-                    "order": "itemType"
-                  },
-                  {
-                    "etype": "EventType.exercised",
-                    "startTime": "someDateTime",
-                    "endTime": "someDateTime",
-                    "totalTime": "someTimeValue",
-                    "kcalBurned": 100
-                  }
+                    "datetime": "2019-03-19 17:37:23.616",
+                    "tookRecommendation": true
+                }
             ]
         }
     ]

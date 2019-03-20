@@ -11,9 +11,9 @@ class ChewsHealthApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shrine',
-      home: HomePage(),
-      initialRoute: '/login',
-      onGenerateRoute: _getRoute,
+      home: LoginPage(),
+      // initialRoute: '/login',
+      // onGenerateRoute: _getRoute,
     );
   }
 
