@@ -2,6 +2,14 @@
 
 A new Flutter project that recommends menu items when entering into a restaurant to reach the User's goal weight. Read 'Getting Started' to learn how to run Flutter apps.
 
+## Authors
+
+Darrachan Helm - dghelm@uci.edu 
+Hayden Lambing - hlambing@uci.edu 
+Armen Mouradyan - amourady@uci.edu 
+Tianyi Zhang - zhangt17@uci.edu
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
