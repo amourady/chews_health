@@ -111,10 +111,10 @@ List<dynamic> getFoodJSON(http.Response resp) {
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   // double _caloriesLeft = caloriesLeft;
   String _latlong = "lat:     long:     ";
   String _restaurantName = "";
@@ -271,10 +271,10 @@ class _HomePageState extends State<HomePage> {
             height: 400.0,
             child: Center(
               child: (_foodList.length > 0
-                  ? MenuList(_foodList)
+                  ? MenuList(_foodList, this)
                   : (_gotRestaurant
                       ? Text('Sorry, we\'re out of recommendations!')
-                      : MenuList(_foodList))),
+                      : MenuList(_foodList, this))),
             ),
           ),
         ],
