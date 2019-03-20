@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:chews_health/globals.dart';
 
-class ProfilePage extends StatefulWidget {
+class SignupPage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _SignupPageState createState() => _SignupPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  String _dropdownValue = currUser.gender;
-  final _ageController = TextEditingController.fromValue(
-      TextEditingValue(text: currUser.age.toString()));
-  final _heightController = TextEditingController.fromValue(
-      TextEditingValue(text: currUser.height.toString()));
-  final _currWeightController = TextEditingController.fromValue(
-      TextEditingValue(text: currUser.currWeight.toString()));
-  final _goalWeightController = TextEditingController.fromValue(
-      TextEditingValue(text: currUser.goalWeight.toString()));
+class _SignupPageState extends State<SignupPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String _dropdownValue = 'male';
+  final _ageController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _currWeightController = TextEditingController();
+  final _goalWeightController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +28,30 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.pop(context);
           },
         ),
-        title: Text("PROFILE"),
+        title: Text("SIGN UP"),
       ),
       body: ListView(padding: EdgeInsets.all(8.0), itemExtent: 20.0, children: <
           Widget>[
-        Text('${currUser.username}'),
+        // [Username]
         SizedBox(height: 80.0),
-        Text('Daily Calories Needed: ${currUser.getDailyCaloricAllowance()}'),
+        TextField(
+          controller: _usernameController,
+          decoration: InputDecoration(
+            filled: true,
+            labelText: 'Username',
+          ),
+        ),
+        // spacer
         SizedBox(height: 80.0),
-        Text('Calories Eaten Today: ${currUser.getCaloriesEaten()}'),
-        SizedBox(height: 80.0),
-        Text('Calories Left Today: ${currUser.getCaloriesLeft()}'),
+        // [Password]
+        TextField(
+          controller: _passwordController,
+          decoration: InputDecoration(
+            filled: true,
+            labelText: 'Password',
+          ),
+          obscureText: true,
+        ),
         SizedBox(height: 80.0),
         // [gender]
         DropdownButton<String>(
@@ -102,28 +113,32 @@ class _ProfilePageState extends State<ProfilePage> {
         SizedBox(height: 80.0),
         // update button
         RaisedButton(
-          child: Text('UPDATE'),
+          child: Text('REGISTER'),
           onPressed: () {
-            if (_dropdownValue != currUser.gender)
-              currUser.gender = _dropdownValue;
+            if (_usernameController.text.isNotEmpty &&
+                _passwordController.text.isNotEmpty)
+              currUser =
+                  new User(_usernameController.text, _passwordController.text);
 
-            if (_ageController.text.isNotEmpty &&
-                int.tryParse(_ageController.text) != currUser.age)
+            currUser.gender = _dropdownValue;
+
+            if (_ageController.text.isNotEmpty)
               currUser.age = int.tryParse(_ageController.text);
 
-            if (_heightController.text.isNotEmpty &&
-                int.tryParse(_heightController.text) != currUser.height)
+            if (_heightController.text.isNotEmpty)
               currUser.height = int.tryParse(_heightController.text);
 
-            if (_currWeightController.text.isNotEmpty &&
-                int.tryParse(_currWeightController.text) != currUser.currWeight)
+            if (_currWeightController.text.isNotEmpty)
               currUser.currWeight = int.tryParse(_currWeightController.text);
 
-            if (_goalWeightController.text.isNotEmpty &&
-                int.tryParse(_goalWeightController.text) != currUser.goalWeight)
+            if (_goalWeightController.text.isNotEmpty)
               currUser.goalWeight = int.tryParse(_goalWeightController.text);
 
+            users.add(currUser);
+
             store();
+
+            Navigator.pop(context);
           },
         )
       ]),

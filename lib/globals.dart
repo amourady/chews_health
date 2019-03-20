@@ -7,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 enum EventType {
   restaurantVisit,
   consumedCalories,
-  finishedRecommendedExercise,
   reachedWeightGoal,
   lostWeightGoal,
   weightChanged,
@@ -45,6 +44,11 @@ class User {
   Map<String, dynamic> toJson() => {
         'username': username,
         'password': password,
+        'age': age,
+        'gender': gender,
+        'height': height,
+        'currWeight': currWeight,
+        'goalWeight': goalWeight,
         'events': events,
       };
 
@@ -52,10 +56,15 @@ class User {
     double bmr;
 
     if (this.gender == 'male') {
-      bmr = 66 + (6.3 * this.currWeight) + (12.9 * this.height) - (6.8 * this.age);
-    }
-    else {
-      bmr = 655 + (4.3 * this.currWeight) + (4.7 * this.height) - (4.7 * this.age);
+      bmr = 66 +
+          (6.3 * this.currWeight) +
+          (12.9 * this.height) -
+          (6.8 * this.age);
+    } else {
+      bmr = 655 +
+          (4.3 * this.currWeight) +
+          (4.7 * this.height) -
+          (4.7 * this.age);
     }
 
     if (this.currWeight != this.goalWeight) {
@@ -78,18 +87,25 @@ class User {
 //     users.forEach((entry) => usersFile.writeAsStringSync(jsonEncode(entry)));
 
 void load() async {
+  // await rootBundle.loadStructuredData('assets/users.json', (String s) async {
+  //   return json.decode(s);
+  // }).then((jsonInput) {
+  //   print(jsonInput['users'].runtimeType.toString());
+  //   jsonInput['users'].forEach((entry) {
+  //     print(entry.toString());
+  //     users.add(User.fromJson(jsonDecode(jsonEncode(entry))));
+  //   });
+  // });
 
-  await rootBundle.loadStructuredData('assets/users.json', (String s) async {
-    return json.decode(s);
-  }).then((jsonInput) {
+  final file = await _localFile;
+  await file.readAsString().then((jsonStr) {
+    var jsonInput = jsonDecode(jsonStr);
     print(jsonInput['users'].runtimeType.toString());
     jsonInput['users'].forEach((entry) {
       print(entry.toString());
       users.add(User.fromJson(jsonDecode(jsonEncode(entry))));
     });
   });
-
-  print(users.toString());
 }
 
 Future<String> get _localPath async {
@@ -100,12 +116,14 @@ Future<String> get _localPath async {
 
 Future<File> get _localFile async {
   final path = await _localPath;
+  print('$path');
   return File('$path/users.json');
 }
 
-void store() async {
+Future<File> store() async {
   final file = await _localFile;
-  file.writeAsString(jsonEncode({'users' : users}));
+  print(jsonEncode({'users': users}));
+  await file.writeAsString(jsonEncode({'users': users}));
 }
 
 EventType getEventTypeFromString(String eventTypeString) {
@@ -133,14 +151,9 @@ List<Map<String, dynamic>> users_ex = [
         'order': 'itemType'
       },
       {
-        'etype' : 'EventType.consumedCalories',
-        'datetime' : 'someDateTime',
-        'kcalConsumed': 100,
-      },
-      {
-        'etype': 'EventType.finishedRecommendedExercise',
+        'etype': 'EventType.consumedCalories',
         'datetime': 'someDateTime',
-        'kcalBurned': 500,
+        'kcalConsumed': 100,
       },
       {
         'etype': 'EventType.weightChanged',

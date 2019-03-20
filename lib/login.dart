@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chews_health/globals.dart';
+import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,9 +27,9 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 120.0),
-            // [Name]
+            // [Username]
             TextField(
-              controller:_usernameController,
+              controller: _usernameController,
               decoration: InputDecoration(
                 filled: true,
                 labelText: 'Username',
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 12.0),
             // [Password]
             TextField(
-              controller:_passwordController,
+              controller: _passwordController,
               decoration: InputDecoration(
                 filled: true,
                 labelText: 'Password',
@@ -58,6 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                 FlatButton(
                   child: Text('SIGN UP'),
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupPage()),
+                    );
                   },
                 ),
                 RaisedButton(
@@ -68,19 +72,22 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Future<DocumentSnapshot> userDoc = Firestore.instance.collection('users').document(uname).get();
                     print(users.toString());
-                    for(User userEntry in users) {
+                    for (User userEntry in users) {
                       print(userEntry.toString());
                       print(userEntry.username);
                       print(userEntry.password);
-                      if (userEntry.username == uname && userEntry.password == pass) {
+                      if (userEntry.username == uname &&
+                          userEntry.password == pass) {
                         isLoggedIn = true;
                         currUser = userEntry;
                         print('MATCHED');
                       }
                     }
-                    
-                    if (isLoggedIn) Navigator.pop(context);
-                    else print("incorrect creds");
+
+                    if (isLoggedIn)
+                      Navigator.pop(context);
+                    else
+                      print("incorrect creds");
                   },
                 ),
               ],
