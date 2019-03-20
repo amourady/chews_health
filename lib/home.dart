@@ -121,11 +121,7 @@ class _HomePageState extends State<HomePage> {
   bool _gotRestaurant = false;
   List<MenuItem> _foodList = [];
 
-  void _refreshCaloriesLeft() {
-         _foodList.sort((a, b) => a.calories.compareTo(b.fat)); //asc
-      _foodList.sort((a, b) => a.calories.compareTo(b.carbs)); //asc 
-      
-      _foodList.sort((b, a) => a.calories.compareTo(b.calories)); //desc
+  void _refreshCaloriesLeft() { 
       
     print("Refreshing calories left");
     // _caloriesLeft = currUser.getCaloriesLeft().toDouble();
@@ -192,9 +188,9 @@ class _HomePageState extends State<HomePage> {
       _gotRestaurant = true;
 
       
-      _foodList.sort((a, b) => a.calories.compareTo(b.fat)); //asc
-      _foodList.sort((a, b) => a.calories.compareTo(b.carbs)); //asc 
-      _foodList.sort((b, a) => a.calories.compareTo(b.calories)); //desc
+      _foodList.sort((a, b) => a.calories.compareTo(b.calories)); //asc
+      _foodList.sort((a, b) => a.fat.compareTo(b.fat)); //asc
+      _foodList.sort((a, b) => a.carbs.compareTo(b.carbs)); //asc
 
       // print(_foodList.toString());
       generateEventRestaurantVisit(currentLocation['latitude'], currentLocation['longitude'], nearbyRestaurant['name']);
