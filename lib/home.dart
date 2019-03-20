@@ -4,6 +4,7 @@ import 'profile.dart';
 import 'login.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
+import 'package:chews_health/globals.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'dart:convert';
