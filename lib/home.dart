@@ -9,14 +9,13 @@ import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'dart:convert';
 
-import 'profile.dart';
-import 'login.dart';
 import 'menu_list.dart';
 import 'menuItem_model.dart';
 
+
 // Set your API stuff here:
-final String appID = 'c5e5d759';
-final String appKey = '7292060add763c6662856551346630da';
+final String appID = 'a92db20e';
+final String appKey = '66839975ad994f1994ccf893bf1647d6';
 
 // Test vars:
 final testWeight = 160;
@@ -123,6 +122,11 @@ class _HomePageState extends State<HomePage> {
   List<MenuItem> _foodList = [];
 
   void _refreshCaloriesLeft() {
+         _foodList.sort((a, b) => a.calories.compareTo(b.fat)); //asc
+      _foodList.sort((a, b) => a.calories.compareTo(b.carbs)); //asc 
+      
+      _foodList.sort((b, a) => a.calories.compareTo(b.calories)); //desc
+      
     print("Refreshing calories left");
     // _caloriesLeft = currUser.getCaloriesLeft().toDouble();
     _foodList.removeWhere((item) => item.calories > currUser.getCaloriesLeft());
@@ -187,12 +191,15 @@ class _HomePageState extends State<HomePage> {
           foodItem['fields']['nf_total_fat'])));
       _gotRestaurant = true;
 
-      // Sort menu items by calories (ascending)
-      _foodList.sort((a, b) => a.calories.compareTo(b.calories));
+      
+      _foodList.sort((a, b) => a.calories.compareTo(b.fat)); //asc
+      _foodList.sort((a, b) => a.calories.compareTo(b.carbs)); //asc 
+      _foodList.sort((b, a) => a.calories.compareTo(b.calories)); //desc
 
       // print(_foodList.toString());
       generateEventRestaurantVisit(currentLocation['latitude'], currentLocation['longitude'], nearbyRestaurant['name']);
       print(currUser.events.last.toString());
+
     });
   }
 

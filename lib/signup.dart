@@ -43,6 +43,7 @@ class _SignupPageState extends State<SignupPage> {
         ),
         // spacer
         SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
         // [Password]
         TextField(
           controller: _passwordController,
@@ -52,6 +53,8 @@ class _SignupPageState extends State<SignupPage> {
           ),
           obscureText: true,
         ),
+        SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
         SizedBox(height: 80.0),
         // [gender]
         DropdownButton<String>(
@@ -81,6 +84,7 @@ class _SignupPageState extends State<SignupPage> {
           keyboardType: TextInputType.number,
         ),
         SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
         // [height]
         TextField(
           controller: _heightController,
@@ -90,6 +94,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
           keyboardType: TextInputType.number,
         ),
+        SizedBox(height: 80.0),
         SizedBox(height: 80.0),
         // [current weight]
         TextField(
@@ -101,6 +106,7 @@ class _SignupPageState extends State<SignupPage> {
           keyboardType: TextInputType.number,
         ),
         SizedBox(height: 80.0),
+        SizedBox(height: 80.0),
         // [goal weight]
         TextField(
           controller: _goalWeightController,
@@ -110,6 +116,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
           keyboardType: TextInputType.number,
         ),
+        SizedBox(height: 80.0),
         SizedBox(height: 80.0),
         // update button
         RaisedButton(

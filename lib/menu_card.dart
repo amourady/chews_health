@@ -44,7 +44,7 @@ class _MenuCardState extends State<MenuCard> {
                     IconButton(
                       icon: Icon(Icons.add_circle),
                     onPressed: () { 
-                      updateCaloriesLeft(menuItem.calories);
+                      updateCaloriesLeft(menuItem.calories); // this
                     },
                     ),
 
