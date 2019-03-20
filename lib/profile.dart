@@ -122,8 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
             if (_goalWeightController.text.isNotEmpty &&
                 int.tryParse(_goalWeightController.text) != currUser.goalWeight)
               currUser.goalWeight = int.tryParse(_goalWeightController.text);
-
+            setState(() {});
             store();
+
           },
         )
       ]),
