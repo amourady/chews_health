@@ -79,6 +79,9 @@ class User {
 
   int getCaloriesEaten() {
     int total = 0;
+    
+    if (currUser.events.isEmpty) return total;
+
     for (var event in currUser.events) {
       if (getEventTypeFromString(event['etype']) ==
           EventType.consumedCalories) {
