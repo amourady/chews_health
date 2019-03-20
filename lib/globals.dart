@@ -214,6 +214,7 @@ void generateEventRestaurantVisit(double lat, double long, String restName) {
     'tookRecommendation': true
   };
   currUser.events.add(event);
+  store();
 }
 
 void generateEventConsumedCalories(int cals) {
@@ -223,6 +224,7 @@ void generateEventConsumedCalories(int cals) {
     'kcalConsumed': cals,
   };
   currUser.events.add(event);
+  store();
 }
 
 List<Map<String, dynamic>> users_ex = [
